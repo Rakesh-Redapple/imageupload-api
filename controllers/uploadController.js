@@ -1,5 +1,6 @@
 const Product=require("../models/product");
 const path=require('path');
+const fs=require('fs');
 const cloudinary=require('cloudinary').v2
 
 const {StatusCodes}= require('http-status-codes');
@@ -38,6 +39,8 @@ const uploadProductImage= async(req,res)=>{
         },(error,results)=>{
             console.log(results);
         });
+        // fs.unlinksync is used for not save file in temp folder
+        fs.unlinkSync(req.files.image.tempFilePath);
     
     return res.status(StatusCodes.OK).json({message:'uploded on cloudinary folder'})
     }catch(error){
