@@ -8,7 +8,7 @@ dotenv.config({path:"./.env"});
 let port=process.env.PORT;
 
 app.use(express.json());
-app.use(express.urlencoded({extended:false}));
+//app.use(express.urlencoded({extended:false}));
 app.use(fileupload());
 app.use("/api/v1",productRouter);
 
