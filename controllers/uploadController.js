@@ -1,9 +1,10 @@
 const Product=require("../models/product");
 const path=require('path');
+const cloudinary=require('cloudinary').v2
 
 const {StatusCodes}= require('http-status-codes');
 
-const uploadProductImage= async(req,res)=>{
+const uploadProductImageLocal= async(req,res)=>{
     console.log(req.files,'UTF-8');
 
     if(!req.files){
@@ -26,6 +27,23 @@ const uploadProductImage= async(req,res)=>{
 
    return  res.status(StatusCodes.CREATED).json({image:{src:imagePath}});
 
+}
+
+const uploadProductImage= async(req,res)=>{
+    try{
+        console.log(req.files.image);
+        const result= await cloudinary.uploader.upload(req.files.image.tempFilePath,{
+            use_filename:true,
+            folder:'file-upload'
+        },(error,results)=>{
+            console.log(results);
+        });
+    
+    return res.status(StatusCodes.OK).json({message:'uploded on cloudinary folder'})
+    }catch(error){
+        console.log(error.message);
+    }
+   
 }
 
 
